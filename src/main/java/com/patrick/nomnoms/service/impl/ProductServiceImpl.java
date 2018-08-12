@@ -32,4 +32,9 @@ public class ProductServiceImpl implements ProductService {
     public Iterable<Product> listAllProducts() {
         return null;
     }
+
+    @Override
+    public Iterable<Product> listBestProteinProducts() {
+        return repository.findByProteinGreaterThanEqual(50);
+    }
 }

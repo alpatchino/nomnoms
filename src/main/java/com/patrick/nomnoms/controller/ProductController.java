@@ -35,16 +35,24 @@ public class ProductController {
         return service.getProductById(id);
     }
 
-    @RequestMapping(value = "/", method = RequestMethod.POST)
+/*    @RequestMapping(value = "/", method = RequestMethod.POST)
     public Product createProduct(@RequestBody Product product) {
         log.info("Creating new product {}...", product);
         return service.saveProduct(product);
-    }
+    }*/
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+/*    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public Product updateProduct(@PathVariable Integer id, @RequestBody Product product){
         log.info("Updating product {}...", product.getId());
         product.setId(id);
         return service.saveProduct(product);
+    }*/
+
+    @RequestMapping(value = "/best", method = RequestMethod.GET)
+    public Iterable<Product> getBestProtein(){
+        log.info("Getting best protein {}...");
+        return service.listBestProteinProducts();
     }
+
+
 }
