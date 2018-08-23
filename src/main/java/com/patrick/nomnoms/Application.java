@@ -27,8 +27,11 @@ public class Application {
 	@PostConstruct
 	public void init(){
 
-        List<Product> lowFatProducts = repository.findByFatLessThan(4);
-        List<Product> highProteinProducts = repository.findByProteinGreaterThanEqual(100);
+        List<Product> lowFatProducts =
+                repository.findByFatLessThan(4);
+
+        List<Product> highProteinProducts =
+                repository.findByProteinGreaterThanEqual(100);
 
         log.info("Low far products");
 

@@ -30,7 +30,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Iterable<Product> listAllProducts() {
-        return null;
+        return repository.findAll();
     }
 
     @Override
