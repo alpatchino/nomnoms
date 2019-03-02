@@ -27,9 +27,4 @@ public interface ProductService {
      */
     Iterable<Product> listAllProducts();
 
-    /**
-     *
-     * @return
-     */
-    Iterable<Product> listBestProteinProducts();
 }

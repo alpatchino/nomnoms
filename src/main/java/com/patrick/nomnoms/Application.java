@@ -1,5 +1,7 @@
 package com.patrick.nomnoms;
 
+import com.patrick.nomnoms.api.tesco.TescoService;
+import com.patrick.nomnoms.api.tesco.response.GroceriesResponseVO;
 import com.patrick.nomnoms.entity.Product;
 import com.patrick.nomnoms.repository.ProductRepository;
 import org.slf4j.Logger;
@@ -7,13 +9,15 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.data.domain.Pageable;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
 
 @SpringBootApplication
 public class Application {
+
+	@Autowired
+    private TescoService tescoService;
 
 	@Autowired
 	private ProductRepository repository;
@@ -27,22 +31,19 @@ public class Application {
 	@PostConstruct
 	public void init(){
 
-        List<Product> lowFatProducts =
-                repository.findByFatLessThan(4);
+		log.info("------------------API TEST CALLS HERE -------------------------");
+		List<Product> products = tescoService.searchProduct("Salmon");
 
-        List<Product> highProteinProducts =
-                repository.findByProteinGreaterThanEqual(100);
+		for(Product product : products){
 
-        log.info("Low far products");
+			log.info("Saving name={} id={} objectId={} tpnb={}",
+					product.getName(),
+					product.getId(),
+					product.getObjectId(),
+					product.getTpnb());
 
-        for(Product p : lowFatProducts){
-            log.info(p.toString());
-        }
-
-        log.info("High protein products");
-
-        for(Product p : highProteinProducts){
-            log.info(p.toString());
-        }
+			repository.save(product);
+		}
     }
+
 }

@@ -8,13 +8,15 @@ import java.util.List;
 
 public interface ProductRepository extends CrudRepository<Product, Integer> {
 
+
+}
+
+/*
     List<Product> findByProteinGreaterThanEqual(Integer proteinContent);
 
     List<Product> findByFatLessThan(Integer fatContent);
+*/
 /*
     @Query(value = "SELECT * FROM PRODUCT WHERE ",
             nativeQuery = true)
     List<Product> findByBestProteinToPriceRatio();*/
-
-
-}

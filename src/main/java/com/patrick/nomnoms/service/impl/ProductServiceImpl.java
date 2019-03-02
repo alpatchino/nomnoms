@@ -33,8 +33,4 @@ public class ProductServiceImpl implements ProductService {
         return repository.findAll();
     }
 
-    @Override
-    public Iterable<Product> listBestProteinProducts() {
-        return repository.findByProteinGreaterThanEqual(50);
-    }
 }

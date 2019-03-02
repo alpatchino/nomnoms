@@ -14,7 +14,7 @@ import java.util.Optional;
 @RequestMapping(value = "/products", produces = MediaType.APPLICATION_JSON_VALUE)
 public class ProductController {
 
-    public static final Logger log = LoggerFactory.getLogger(ProductController.class);
+  /*  public static final Logger log = LoggerFactory.getLogger(ProductController.class);
 
     private ProductService service;
 
@@ -52,7 +52,7 @@ public class ProductController {
     public Iterable<Product> getBestProtein() {
         log.info("Getting best protein {}...");
         return service.listBestProteinProducts();
-    }
+    }*/
 
 
 }

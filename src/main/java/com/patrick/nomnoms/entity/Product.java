@@ -1,45 +1,67 @@
 package com.patrick.nomnoms.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import java.math.BigDecimal;
+import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
-public class Product {
+@Table(name="products")
+public class Product implements Serializable {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer objectId;
+
+    @Column(name = "tpnc")
     private Integer id;
 
+    @Column(name = "image_url")
+    private String image;
+
+    @Column(name = "super_department")
+    private String superDepartment;
+
+    @Column(name = "tpnb")
+    private Integer tpnb;
+
+    @Column(name = "contents_measure_type")
+    private String contentsMeasureType;
+
+    @Column(name = "name")
     private String name;
 
-    @Column(columnDefinition = "text")
-    private String url;
+    @Column(name = "unitOfSale")
+    private Integer unitOfSale;
 
-    @Column(columnDefinition = "text")
+    @Column(name = "description")
     private String description;
 
-    private Integer netContent;
+    @Column(name = "avg_selling_unit_wt")
+    private Double averageSellingUnitWeight;
 
-    private Integer energy;
+    @Column(name = "unit_quantity")
+    private String unitQuantity;
 
-    private Integer fat;
+    @Column(name = "contents_quantity")
+    private Integer contentsQuantity;
 
-    private Integer saturates;
+    @Column(name = "department")
+    private String department;
 
-    private Integer carbohydrates;
+    @Column(name = "price")
+    private Double price;
 
-    private Integer sugars;
+    @Column(name = "unit_price")
+    private Double unitprice;
 
-    private Integer fibre;
+    public Product(){}
 
-    private Integer protein;
+    public Integer getObjectId() {
+        return objectId;
+    }
 
-    private Integer salt;
-
-    private BigDecimal price;
+    public void setObjectId(Integer objectId) {
+        this.objectId = objectId;
+    }
 
     public Integer getId() {
         return id;
@@ -47,6 +69,38 @@ public class Product {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public String getSuperDepartment() {
+        return superDepartment;
+    }
+
+    public void setSuperDepartment(String superDepartment) {
+        this.superDepartment = superDepartment;
+    }
+
+    public Integer getTpnb() {
+        return tpnb;
+    }
+
+    public void setTpnb(Integer tpnb) {
+        this.tpnb = tpnb;
+    }
+
+    public String getContentsMeasureType() {
+        return contentsMeasureType;
+    }
+
+    public void setContentsMeasureType(String contentsMeasureType) {
+        this.contentsMeasureType = contentsMeasureType;
     }
 
     public String getName() {
@@ -57,12 +111,12 @@ public class Product {
         this.name = name;
     }
 
-    public String getUrl() {
-        return url;
+    public Integer getUnitOfSale() {
+        return unitOfSale;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public void setUnitOfSale(Integer unitOfSale) {
+        this.unitOfSale = unitOfSale;
     }
 
     public String getDescription() {
@@ -73,103 +127,51 @@ public class Product {
         this.description = description;
     }
 
-    public Integer getNetContent() {
-        return netContent;
+    public Double getAverageSellingUnitWeight() {
+        return averageSellingUnitWeight;
     }
 
-    public void setNetContent(Integer netContent) {
-        this.netContent = netContent;
+    public void setAverageSellingUnitWeight(Double averageSellingUnitWeight) {
+        this.averageSellingUnitWeight = averageSellingUnitWeight;
     }
 
-    public Integer getEnergy() {
-        return energy;
+    public String getUnitQuantity() {
+        return unitQuantity;
     }
 
-    public void setEnergy(Integer energy) {
-        this.energy = energy;
+    public void setUnitQuantity(String unitQuantity) {
+        this.unitQuantity = unitQuantity;
     }
 
-    public Integer getFat() {
-        return fat;
+    public Integer getContentsQuantity() {
+        return contentsQuantity;
     }
 
-    public void setFat(Integer fat) {
-        this.fat = fat;
+    public void setContentsQuantity(Integer contentsQuantity) {
+        this.contentsQuantity = contentsQuantity;
     }
 
-    public Integer getSaturates() {
-        return saturates;
+    public String getDepartment() {
+        return department;
     }
 
-    public void setSaturates(Integer saturates) {
-        this.saturates = saturates;
+    public void setDepartment(String department) {
+        this.department = department;
     }
 
-    public Integer getCarbohydrates() {
-        return carbohydrates;
-    }
-
-    public void setCarbohydrates(Integer carbohydrates) {
-        this.carbohydrates = carbohydrates;
-    }
-
-    public Integer getSugars() {
-        return sugars;
-    }
-
-    public void setSugars(Integer sugars) {
-        this.sugars = sugars;
-    }
-
-    public Integer getFibre() {
-        return fibre;
-    }
-
-    public void setFibre(Integer fibre) {
-        this.fibre = fibre;
-    }
-
-    public Integer getProtein() {
-        return protein;
-    }
-
-    public void setProtein(Integer protein) {
-        this.protein = protein;
-    }
-
-    public Integer getSalt() {
-        return salt;
-    }
-
-    public void setSalt(Integer salt) {
-        this.salt = salt;
-    }
-
-    public BigDecimal getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(BigDecimal price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 
-    @Override
-    public String toString() {
-        return "Product{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", url='" + url + '\'' +
-                ", description='" + description + '\'' +
-                ", netContent=" + netContent +
-                ", energy=" + energy +
-                ", fat=" + fat +
-                ", saturates=" + saturates +
-                ", carbohydrates=" + carbohydrates +
-                ", sugars=" + sugars +
-                ", fibre=" + fibre +
-                ", protein=" + protein +
-                ", salt=" + salt +
-                ", price=" + price +
-                '}';
+    public Double getUnitprice() {
+        return unitprice;
+    }
+
+    public void setUnitprice(Double unitprice) {
+        this.unitprice = unitprice;
     }
 }
