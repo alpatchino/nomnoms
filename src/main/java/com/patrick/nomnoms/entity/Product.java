@@ -2,55 +2,57 @@ package com.patrick.nomnoms.entity;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.math.BigInteger;
 
 @Entity
 @Table(name="products")
 public class Product implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
     private Integer objectId;
 
-    @Column(name = "tpnc")
-    private Integer id;
+    @Column(name = "tpnc", nullable = false)
+    private Integer tpnc;
 
-    @Column(name = "image_url")
+    @Column(name = "image_url", nullable = false)
     private String image;
 
-    @Column(name = "super_department")
+    @Column(name = "super_department", nullable = false)
     private String superDepartment;
 
-    @Column(name = "tpnb")
+    @Column(name = "tpnb",  nullable = false)
     private Integer tpnb;
 
-    @Column(name = "contents_measure_type")
+    @Column(name = "contents_measure_type", nullable = false)
     private String contentsMeasureType;
 
-    @Column(name = "name")
+    @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "unitOfSale")
+    @Column(name = "unit_of_sale", nullable = false)
     private Integer unitOfSale;
 
-    @Column(name = "description")
+    @Column(name = "description", columnDefinition = "text", nullable = false)
     private String description;
 
-    @Column(name = "avg_selling_unit_wt")
+    @Column(name = "avg_selling_unit_wt", nullable = false)
     private Double averageSellingUnitWeight;
 
-    @Column(name = "unit_quantity")
+    @Column(name = "unit_quantity", nullable = false)
     private String unitQuantity;
 
-    @Column(name = "contents_quantity")
+    @Column(name = "contents_quantity", nullable = false)
     private Integer contentsQuantity;
 
-    @Column(name = "department")
+    @Column(name = "department", nullable = false)
     private String department;
 
-    @Column(name = "price")
+    @Column(name = "price", nullable = false)
     private Double price;
 
-    @Column(name = "unit_price")
+    @Column(name = "unit_price", nullable = false)
     private Double unitprice;
 
     public Product(){}
@@ -63,12 +65,12 @@ public class Product implements Serializable {
         this.objectId = objectId;
     }
 
-    public Integer getId() {
-        return id;
+    public Integer getTpnc() {
+        return tpnc;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setTpnc(Integer tpnc) {
+        this.tpnc = tpnc;
     }
 
     public String getImage() {

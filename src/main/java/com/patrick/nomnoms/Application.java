@@ -36,9 +36,9 @@ public class Application {
 
 		for(Product product : products){
 
-			log.info("Saving name={} id={} objectId={} tpnb={}",
+			log.info("Saving name={} tpnc={} objectId={} tpnb={}",
 					product.getName(),
-					product.getId(),
+					product.getTpnc(),
 					product.getObjectId(),
 					product.getTpnb());
 

@@ -75,6 +75,8 @@ public class TescoServiceImpl implements TescoService {
         for(Result result : results){
             Product product = new Product();
             BeanUtils.copyProperties(result, product);
+            product.setTpnc(result.getId());
+            product.setDescription(result.getDescription().toString());
             formattedProducts.add(product);
         }
 
