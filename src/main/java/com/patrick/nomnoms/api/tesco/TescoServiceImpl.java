@@ -13,6 +13,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -41,7 +43,7 @@ public class TescoServiceImpl implements TescoService {
     }
 
     @Override
-    public GroceriesResponseVO searchGroceries(String query, Integer offset, Integer limit) {
+    public List<Result> searchGroceries(String query, Integer offset, Integer limit) {
 
         final UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(TESCO_GROCERIES_URL)
                 .queryParam("query", query)
@@ -50,23 +52,33 @@ public class TescoServiceImpl implements TescoService {
 
         log.info("Calling URL: {}", builder.toUriString());
 
-        return restTemplate.exchange(
-                builder.toUriString(),
-                HttpMethod.GET,
-                getHttpEntity(),
-                GroceriesResponseVO.class).getBody();
+        try {
+
+            GroceriesResponseVO responseVO = restTemplate.exchange(
+                    builder.toUriString(),
+                    HttpMethod.GET,
+                    getHttpEntity(),
+                    GroceriesResponseVO.class).getBody();
+
+            return responseVO.getUk().getGhs().getProducts().getResults();
+
+        } catch (HttpClientErrorException | HttpServerErrorException e) {
+            log.error("Error calling {}", builder.toUriString(), e);
+        } catch (Exception e) {
+            log.error("Unknown error calling {}", builder.toUriString(), e);
+        }
+
+        return null;
     }
 
     @Override
-    public String testFlow(String query) {
+    public List<Product> testFlow(String query) {
 
-        GroceriesResponseVO vo = searchGroceries(query, 0, 10);
-
-        List<Result> results = vo.getUk().getGhs().getProducts().getResults();
+        List<Result> results = searchGroceries(query, 0, 10);
 
         List<Product> products = formatResults(results);
 
-        return products.toString();
+        return products;
 
     }
 
@@ -75,13 +87,15 @@ public class TescoServiceImpl implements TescoService {
         List<Product> formattedProducts = new ArrayList<>();
 
         for(Result result : results){
+
             Product product = new Product();
+
             BeanUtils.copyProperties(result, product);
-            product.setTpnc(result.getId());
 
-            String json = searchProduct(product.getTpnb().toString());
+            if (result.getDescription() != null) {
+                product.setDescription(result.getDescription().toString());
+            }
 
-            product.setDescription(result.getDescription().toString());
             formattedProducts.add(product);
         }
 
@@ -89,7 +103,7 @@ public class TescoServiceImpl implements TescoService {
     }
 
     @Override
-    public String searchProduct(String tpnc){
+    public String searchProductByTpnc(String tpnc) {
 
         final UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(TESCO_PRODUCTS_URL)
                 .queryParam("tpnc", tpnc);
@@ -103,10 +117,37 @@ public class TescoServiceImpl implements TescoService {
                 String.class).getBody();
     }
 
+    @Override
+    public String searchProductByGtin(String gtin) {
+
+        final UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(TESCO_PRODUCTS_URL)
+                .queryParam("gtin", gtin);
+
+        log.info("Calling URL: {}", builder.toUriString());
+
+        try {
+
+            String response = restTemplate.exchange(
+                    builder.toUriString(),
+                    HttpMethod.GET,
+                    getHttpEntity(),
+                    String.class).getBody();
+
+            return response;
+
+        } catch (HttpClientErrorException | HttpServerErrorException e) {
+            log.error("Error calling {}", builder.toUriString(), e);
+        } catch (Exception e) {
+            log.error("Unknown error calling {}", builder.toUriString(), e);
+        }
+
+        return null;
+    }
+
     private HttpEntity<String> getHttpEntity() {
 
         final HttpHeaders headers = new HttpHeaders();
-        headers.setAccept(Arrays.asList(new MediaType[] { MediaType.APPLICATION_JSON }));
+        headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.set("Ocp-Apim-Subscription-Key", TESCO_CREDENTIALS_LIVE);
 

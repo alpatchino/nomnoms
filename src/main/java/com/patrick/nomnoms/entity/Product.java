@@ -2,7 +2,6 @@ package com.patrick.nomnoms.entity;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.math.BigInteger;
 
 @Entity
 @Table(name="products")
@@ -13,7 +12,7 @@ public class Product implements Serializable {
     @Column(name = "id", nullable = false)
     private Integer objectId;
 
-    @Column(name = "tpnc", nullable = false)
+    @Column(name = "tpnc", nullable = false, unique = true)
     private Integer tpnc;
 
     @Column(name = "image_url", nullable = false)
@@ -22,7 +21,7 @@ public class Product implements Serializable {
     @Column(name = "super_department", nullable = false)
     private String superDepartment;
 
-    @Column(name = "tpnb",  nullable = false)
+    @Column(name = "tpnb", nullable = false, unique = true)
     private Integer tpnb;
 
     @Column(name = "contents_measure_type", nullable = false)
@@ -34,7 +33,7 @@ public class Product implements Serializable {
     @Column(name = "unit_of_sale", nullable = false)
     private Integer unitOfSale;
 
-    @Column(name = "description", columnDefinition = "text", nullable = false)
+    @Column(name = "description", columnDefinition = "text")
     private String description;
 
     @Column(name = "avg_selling_unit_wt", nullable = false)
@@ -175,5 +174,26 @@ public class Product implements Serializable {
 
     public void setUnitprice(Double unitprice) {
         this.unitprice = unitprice;
+    }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "objectId=" + objectId +
+                ", tpnc=" + tpnc +
+                ", image='" + image + '\'' +
+                ", superDepartment='" + superDepartment + '\'' +
+                ", tpnb=" + tpnb +
+                ", contentsMeasureType='" + contentsMeasureType + '\'' +
+                ", name='" + name + '\'' +
+                ", unitOfSale=" + unitOfSale +
+                ", description='" + description + '\'' +
+                ", averageSellingUnitWeight=" + averageSellingUnitWeight +
+                ", unitQuantity='" + unitQuantity + '\'' +
+                ", contentsQuantity=" + contentsQuantity +
+                ", department='" + department + '\'' +
+                ", price=" + price +
+                ", unitprice=" + unitprice +
+                '}';
     }
 }

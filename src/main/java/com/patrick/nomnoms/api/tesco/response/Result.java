@@ -1,15 +1,11 @@
 
 package com.patrick.nomnoms.api.tesco.response;
 
+import com.fasterxml.jackson.annotation.*;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import com.fasterxml.jackson.annotation.JsonAnyGetter;
-import com.fasterxml.jackson.annotation.JsonAnySetter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
@@ -49,7 +45,7 @@ public class Result {
     @JsonProperty("UnitQuantity")
     private String unitQuantity;
     @JsonProperty("id")
-    private Integer id;
+    private Integer tpnc;
     @JsonProperty("ContentsQuantity")
     private Integer contentsQuantity;
     @JsonProperty("department")
@@ -151,14 +147,14 @@ public class Result {
         this.unitQuantity = unitQuantity;
     }
 
-    @JsonProperty("id")
-    public Integer getId() {
-        return id;
+    @JsonProperty("tpnc")
+    public Integer getTpnc() {
+        return tpnc;
     }
 
-    @JsonProperty("id")
-    public void setId(Integer id) {
-        this.id = id;
+    @JsonProperty("tpnc")
+    public void setTpnc(Integer tpnc) {
+        this.tpnc = tpnc;
     }
 
     @JsonProperty("ContentsQuantity")

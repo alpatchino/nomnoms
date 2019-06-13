@@ -1,6 +1,6 @@
 package com.patrick.nomnoms.api.tesco;
 
-import com.patrick.nomnoms.api.tesco.response.GroceriesResponseVO;
+import com.patrick.nomnoms.api.tesco.response.Result;
 import com.patrick.nomnoms.entity.Product;
 
 import java.util.List;
@@ -18,7 +18,7 @@ public interface TescoService {
      * @param limit
      * @return
      */
-    GroceriesResponseVO searchGroceries(String query, Integer offset, Integer limit);
+    List<Result> searchGroceries(String query, Integer offset, Integer limit);
 
     /**
      * Query based search of Tesco's products. Returns a friendlier list of results.
@@ -26,8 +26,20 @@ public interface TescoService {
      * @param query
      * @return
      */
-    String searchProduct(String tpnc);
+    String searchProductByTpnc(String tpnc);
 
-    String testFlow(String query);
+    /**
+     * @param query
+     * @return
+     */
+    String searchProductByGtin(String gtin);
+
+    /**
+     * <<<<< ignore >>>>>>>></>
+     *
+     * @param query
+     * @return
+     */
+    List<Product> testFlow(String query);
 
 }
