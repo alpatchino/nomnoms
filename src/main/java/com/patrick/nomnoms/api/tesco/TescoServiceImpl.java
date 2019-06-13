@@ -58,13 +58,15 @@ public class TescoServiceImpl implements TescoService {
     }
 
     @Override
-    public List<Product> searchProduct(String query) {
+    public String testFlow(String query) {
 
         GroceriesResponseVO vo = searchGroceries(query, 0, 10);
 
         List<Result> results = vo.getUk().getGhs().getProducts().getResults();
 
-        return formatResults(results);
+        List<Product> products = formatResults(results);
+
+        return products.toString();
 
     }
 
@@ -76,6 +78,9 @@ public class TescoServiceImpl implements TescoService {
             Product product = new Product();
             BeanUtils.copyProperties(result, product);
             product.setTpnc(result.getId());
+
+            String json = searchProduct(product.getTpnb().toString());
+
             product.setDescription(result.getDescription().toString());
             formattedProducts.add(product);
         }
@@ -84,10 +89,10 @@ public class TescoServiceImpl implements TescoService {
     }
 
     @Override
-    public String searchProducts(String tpnb){
+    public String searchProduct(String tpnc){
 
         final UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(TESCO_PRODUCTS_URL)
-                .queryParam("gtin", tpnb);
+                .queryParam("tpnc", tpnc);
 
         log.info("Calling URL: {}", builder.toUriString());
 

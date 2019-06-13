@@ -26,14 +26,8 @@ public interface TescoService {
      * @param query
      * @return
      */
-    List<Product> searchProduct(String query);
+    String searchProduct(String tpnc);
 
-    /**
-     * TPNP (Tesco's product ID) based search. Nutritional information is available for groceries items.
-     *
-     * @param tpnb
-     * @return
-     */
-    String searchProducts(String tpnb);
+    String testFlow(String query);
 
 }

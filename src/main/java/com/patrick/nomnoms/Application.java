@@ -32,9 +32,9 @@ public class Application {
 	public void init(){
 
 		log.info("------------------API TEST CALLS HERE -------------------------");
-		List<Product> products = tescoService.searchProduct("Salmon");
+		String s = tescoService.testFlow("Peppers");
 
-		for(Product product : products){
+/*		for(Product product : products){
 
 			log.info("Saving name={} tpnc={} objectId={} tpnb={}",
 					product.getName(),
@@ -43,7 +43,7 @@ public class Application {
 					product.getTpnb());
 
 			repository.save(product);
-		}
+		}*/
     }
 
 }

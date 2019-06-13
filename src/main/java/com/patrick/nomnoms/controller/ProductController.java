@@ -49,8 +49,13 @@ public class ProductController {
     }
 
     @RequestMapping(value = "/best", method = RequestMethod.GET)
+<<<<<<< Updated upstream
     public Iterable<Product> getBestProtein() {
         log.info("Getting best protein {}...");
+=======
+    public Iterable<Product> getBestProtein(){
+        log.info("Getting best protein ...");
+>>>>>>> Stashed changes
         return service.listBestProteinProducts();
     }*/
 

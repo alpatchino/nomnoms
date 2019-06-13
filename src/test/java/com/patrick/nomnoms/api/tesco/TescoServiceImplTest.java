@@ -1,5 +1,6 @@
 package com.patrick.nomnoms.api.tesco;
 
+import com.patrick.nomnoms.api.tesco.response.GroceriesResponseVO;
 import org.json.JSONObject;
 import org.junit.Assert;
 import org.junit.Before;
@@ -58,11 +59,10 @@ public class TescoServiceImplTest {
 
     @Test
     void searchProducts() {
-/*
 
-        String result = tescoService.searchGroceries("Salmon", 0, 10);
+        GroceriesResponseVO result = tescoService.searchGroceries("Salmon", 0, 10);
 
-        Assert.assertNotNull(result);*/
+        Assert.assertNotNull(result);
 
     }
 }
