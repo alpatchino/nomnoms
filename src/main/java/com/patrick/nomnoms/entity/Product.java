@@ -12,6 +12,9 @@ public class Product implements Serializable {
     @Column(name = "id", nullable = false)
     private Integer objectId;
 
+    /**
+     * This is also the id appended to the tesco grocery website.
+     */
     @Column(name = "tpnc", nullable = false, unique = true)
     private Integer tpnc;
 

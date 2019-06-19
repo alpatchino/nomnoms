@@ -35,10 +35,31 @@ public class Application {
 		SpringApplication.run(Application.class, args);
 	}
 
-	@EventListener(ApplicationReadyEvent.class)
-	public void jsoupInit(){
 
-		String url = "https://www.tesco.com/groceries/en-GB/products/261385173";
+
+
+	@EventListener(ApplicationReadyEvent.class)
+	public void init(){
+
+		log.info("------------------API TEST CALLS HERE -------------------------");
+		List<Product> products = tescoService.testFlow("chicken mayo");
+
+		for (Product product : products) {
+
+			NutritionalValues nv = getNutritionalValuesFromPage(product.getTpnc().toString());
+
+			log.info("Saving product {}", product);
+
+			Product savedEntity = productService.saveProduct(product);
+
+			log.info("... product {} saved!", savedEntity.getObjectId());
+		}
+    }
+
+    public NutritionalValues getNutritionalValuesFromPage(String tpnc){
+
+		String url = "https://www.tesco.com/groceries/en-GB/products/" + tpnc;
+		log.info("Getting Nutritional Info from {}", url);
 
 		try {
 
@@ -95,67 +116,37 @@ public class Application {
 
 					Double salt = Double.parseDouble(row.child(1).ownText().replaceAll("[^0-9.]", ""));
 					nutritionalValues.setSalt(salt);
+
 				} else {
 					log.error("Macronutrient not recognised: {}", titleRow);
 				}
-
-
-
-
-
-				// per 100g
-				String s2 = row.child(1).ownText();
-
-				// maybe per serving
-				String s3 =  row.child(2).ownText();
 
 			}
 
 
 			Element productDescription = doc.getElementById("product-description");
-			log.info("Product description: {}", productDescription.toString());
-
-			String s = productDescription.ownText();
-
+			log.info("Product description: {}", productDescription);
+			nutritionalValues.setDescription(productDescription.ownText());
 
 			Element ingredients = doc.getElementById("ingredients");
 			log.info("Ingredients: {}", ingredients);
+			nutritionalValues.setIngredients(ingredients.ownText());
 
 			Element placeOfOrigin = doc.getElementById("origin-information-produce-of");
 			log.info("Place of origin: {}", placeOfOrigin);
+			nutritionalValues.setPlaceOfOrigin(placeOfOrigin.ownText());
 
 			Element numberOfUses = doc.getElementById("uses");
 			log.info("Number of uses: {}", numberOfUses);
+			nutritionalValues.setNumberOfUses(numberOfUses.ownText());
 
-
-
+			return nutritionalValues;
 
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
-
+		return null;
 	}
-
-
-
-
-
-	public void init(){
-
-		log.info("------------------API TEST CALLS HERE -------------------------");
-		List<Product> products = tescoService.testFlow("fish");
-
-		for (Product product : products) {
-
-			log.info("Saving product {}", product);
-
-			Product savedEntity = productService.saveProduct(product);
-
-			log.info("... product {} saved!", savedEntity.getObjectId());
-		}
-    }
-
-
 
 }
