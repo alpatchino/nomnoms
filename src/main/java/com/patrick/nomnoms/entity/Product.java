@@ -57,6 +57,10 @@ public class Product implements Serializable {
     @Column(name = "unit_price", nullable = false)
     private Double unitprice;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "nutritional_info_id", referencedColumnName = "id")
+    private NutritionalInfo nutritionalInfo;
+
     public Product(){}
 
     public Integer getObjectId() {
@@ -179,6 +183,14 @@ public class Product implements Serializable {
         this.unitprice = unitprice;
     }
 
+    public NutritionalInfo getNutritionalInfo() {
+        return nutritionalInfo;
+    }
+
+    public void setNutritionalInfo(NutritionalInfo nutritionalInfo) {
+        this.nutritionalInfo = nutritionalInfo;
+    }
+
     @Override
     public String toString() {
         return "Product{" +
@@ -197,6 +209,7 @@ public class Product implements Serializable {
                 ", department='" + department + '\'' +
                 ", price=" + price +
                 ", unitprice=" + unitprice +
+                ", nutritionalInfo=" + nutritionalInfo +
                 '}';
     }
 }

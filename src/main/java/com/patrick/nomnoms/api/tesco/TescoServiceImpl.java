@@ -74,7 +74,7 @@ public class TescoServiceImpl implements TescoService {
     @Override
     public List<Product> testFlow(String query) {
 
-        List<Result> results = searchGroceries(query, 0, 3);
+        List<Result> results = searchGroceries(query, 0, 20);
 
         List<Product> products = formatResults(results);
 

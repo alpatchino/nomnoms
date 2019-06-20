@@ -47,4 +47,10 @@ public class ProductServiceImpl implements ProductService {
         return repository.findAll();
     }
 
+    @Override
+    public Iterable<Product> searchProducts(String query) {
+        log.info("Searching for {}", query.toUpperCase());
+        return repository.searchByDepartment(query.toUpperCase());
+    }
+
 }

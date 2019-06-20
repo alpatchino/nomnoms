@@ -27,4 +27,11 @@ public interface ProductService {
      */
     Iterable<Product> listAllProducts();
 
+    /**
+     * Searches products table on title & description
+     *
+     * @param query
+     * @return list of products, empty list if none found
+     */
+    Iterable<Product> searchProducts(String query);
 }

@@ -1,11 +1,21 @@
 package com.patrick.nomnoms.entity;
 
-public class NutritionalValues {
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import java.io.Serializable;
 
-    private String description;
-    private String ingredients;
-    private String placeOfOrigin;
-    private String numberOfUses;
+@Entity
+@Table(name = "nutritional_info")
+public class NutritionalInfo implements Serializable {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
+    private Integer objectId;
 
     private Double energy;
     private Double fat;
@@ -15,37 +25,15 @@ public class NutritionalValues {
     private Double fibre;
     private Double protein;
     private Double salt;
+    private Double calcium;
+    private Double iron;
 
-    public String getDescription() {
-        return description;
+    public Integer getObjectId() {
+        return objectId;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getIngredients() {
-        return ingredients;
-    }
-
-    public void setIngredients(String ingredients) {
-        this.ingredients = ingredients;
-    }
-
-    public String getPlaceOfOrigin() {
-        return placeOfOrigin;
-    }
-
-    public void setPlaceOfOrigin(String placeOfOrigin) {
-        this.placeOfOrigin = placeOfOrigin;
-    }
-
-    public String getNumberOfUses() {
-        return numberOfUses;
-    }
-
-    public void setNumberOfUses(String numberOfUses) {
-        this.numberOfUses = numberOfUses;
+    public void setObjectId(Integer objectId) {
+        this.objectId = objectId;
     }
 
     public Double getEnergy() {
@@ -110,5 +98,36 @@ public class NutritionalValues {
 
     public void setSalt(Double salt) {
         this.salt = salt;
+    }
+
+    @Override
+    public String toString() {
+        return "NutritionalInfo{" +
+                "objectId=" + objectId +
+                ", energy=" + energy +
+                ", fat=" + fat +
+                ", fatSaturates=" + fatSaturates +
+                ", carbohydrates=" + carbohydrates +
+                ", carbSugars=" + carbSugars +
+                ", fibre=" + fibre +
+                ", protein=" + protein +
+                ", salt=" + salt +
+                '}';
+    }
+
+    public Double getCalcium() {
+        return calcium;
+    }
+
+    public void setCalcium(Double calcium) {
+        this.calcium = calcium;
+    }
+
+    public Double getIron() {
+        return iron;
+    }
+
+    public void setIron(Double iron) {
+        this.iron = iron;
     }
 }
