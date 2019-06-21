@@ -57,6 +57,8 @@ public class SearchController {
 
         }*/
 
-        return productService.searchProducts(query);
+        //return productService.searchProducts(query);
+
+        return  null;
     }
 }

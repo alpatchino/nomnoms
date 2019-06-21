@@ -6,11 +6,18 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface ProductRepository extends CrudRepository<Product, Integer> {
 
-    @Query(value = "SELECT * FROM PRODUCTS WHERE UNIT_QUANTITY =?1",
-            nativeQuery = true)
-    Iterable<Product> searchByDepartment(String department);
+    Iterable<Product> findAll();
 
+    @Query("SELECT p FROM Product p ORDER BY p.nutritionalInfo.protein DESC")
+    Iterable<Product> findAllOrderByHighestProteinDesc();
 
+    @Query("SELECT p FROM Product p ORDER BY p.nutritionalInfo.fat ASC")
+    Iterable<Product> findAllOrderByFatAsc();
 
+    @Query("SELECT p FROM Product p ORDER BY p.nutritionalInfo.carbohydrates ASC")
+    Iterable<Product> findAllOrderByCarbsAsc();
+
+    @Query("SELECT p FROM Product p ORDER BY p.nutritionalInfo.salt ASC")
+    Iterable<Product> findAllOrderBySaltAsc();
 
 }
