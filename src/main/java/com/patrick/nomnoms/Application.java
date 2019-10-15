@@ -1,13 +1,9 @@
 package com.patrick.nomnoms;
 
 import com.patrick.nomnoms.api.tesco.TescoService;
-import com.patrick.nomnoms.entity.NutritionalValues;
 import com.patrick.nomnoms.entity.Product;
+import com.patrick.nomnoms.service.AmazonService;
 import com.patrick.nomnoms.service.ProductService;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +12,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 
-import java.io.IOException;
-import java.util.Iterator;
 import java.util.List;
 
 @SpringBootApplication
@@ -29,6 +23,9 @@ public class Application {
 	@Autowired
 	private ProductService productService;
 
+	@Autowired
+	private AmazonService amazonService;
+
 	public static final Logger log = LoggerFactory.getLogger(Application.class);
 
 	public static void main(String[] args) {
@@ -36,6 +33,21 @@ public class Application {
 	}
 
 	@EventListener(ApplicationReadyEvent.class)
+	public void test() {
+		log.info("Application started...");
+
+		String tpnc = "261385173";
+
+		List<Product> products = tescoService.searchGroceries("sliced meat", 0, 10);
+
+		for (Product product : products) {
+			productService.saveProduct(product);
+		}
+
+
+	}
+
+/*	@EventListener(ApplicationReadyEvent.class)
 	public void jsoupInit(){
 
 		String url = "https://www.tesco.com/groceries/en-GB/products/261385173";
@@ -154,7 +166,7 @@ public class Application {
 
 			log.info("... product {} saved!", savedEntity.getObjectId());
 		}
-    }
+    }*/
 
 
 

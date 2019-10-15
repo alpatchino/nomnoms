@@ -3,6 +3,7 @@ package com.patrick.nomnoms.api.tesco;
 import com.patrick.nomnoms.api.tesco.response.GroceriesResponseVO;
 import com.patrick.nomnoms.api.tesco.response.Result;
 import com.patrick.nomnoms.entity.Product;
+import com.patrick.nomnoms.service.AmazonService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -37,13 +38,16 @@ public class TescoServiceImpl implements TescoService {
     private static final Logger log = LoggerFactory.getLogger(TescoServiceImpl.class);
 
     private RestTemplate restTemplate;
+    private AmazonService amazonService;
 
-    public TescoServiceImpl(RestTemplateBuilder restTemplateBuilder) {
+    public TescoServiceImpl(RestTemplateBuilder restTemplateBuilder,
+                            AmazonService amazonService) {
         this.restTemplate = restTemplateBuilder.build();
+        this.amazonService = amazonService;
     }
 
     @Override
-    public List<Result> searchGroceries(String query, Integer offset, Integer limit) {
+    public List<Product> searchGroceries(String query, Integer offset, Integer limit) {
 
         final UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(TESCO_GROCERIES_URL)
                 .queryParam("query", query)
@@ -60,7 +64,7 @@ public class TescoServiceImpl implements TescoService {
                     getHttpEntity(),
                     GroceriesResponseVO.class).getBody();
 
-            return responseVO.getUk().getGhs().getProducts().getResults();
+            return convertToEntity(responseVO.getUk().getGhs().getProducts().getResults());
 
         } catch (HttpClientErrorException | HttpServerErrorException e) {
             log.error("Error calling {}", builder.toUriString(), e);
@@ -71,18 +75,7 @@ public class TescoServiceImpl implements TescoService {
         return null;
     }
 
-    @Override
-    public List<Product> testFlow(String query) {
-
-        List<Result> results = searchGroceries(query, 0, 10);
-
-        List<Product> products = formatResults(results);
-
-        return products;
-
-    }
-
-    private List<Product> formatResults(List<Result> results) {
+    private List<Product> convertToEntity(List<Result> results) {
 
         List<Product> formattedProducts = new ArrayList<>();
 
@@ -110,11 +103,26 @@ public class TescoServiceImpl implements TescoService {
 
         log.info("Calling URL: {}", builder.toUriString());
 
-        return restTemplate.exchange(
-                builder.toUriString(),
-                HttpMethod.GET,
-                getHttpEntity(),
-                String.class).getBody();
+        try {
+
+            String response = restTemplate.exchange(
+                    builder.toUriString(),
+                    HttpMethod.GET,
+                    getHttpEntity(),
+                    String.class).getBody();
+
+            saveResponseToS3(tpnc, response);
+
+            return response;
+
+        } catch (HttpClientErrorException | HttpServerErrorException e) {
+            log.error("Error calling {}", builder.toUriString(), e);
+        } catch (Exception e) {
+            log.error("Unknown error calling {}", builder.toUriString(), e);
+        }
+
+        return null;
+
     }
 
     @Override
@@ -132,6 +140,8 @@ public class TescoServiceImpl implements TescoService {
                     HttpMethod.GET,
                     getHttpEntity(),
                     String.class).getBody();
+
+            saveResponseToS3(gtin, response);
 
             return response;
 
@@ -154,5 +164,9 @@ public class TescoServiceImpl implements TescoService {
         final HttpEntity<String> entity = new HttpEntity<>(headers);
 
         return entity;
+    }
+
+    private void saveResponseToS3(String fileName, String content) {
+        amazonService.putObject("reponses", "tesco-api/" + fileName, content);
     }
 }
