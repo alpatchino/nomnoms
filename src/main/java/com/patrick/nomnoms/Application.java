@@ -1,9 +1,14 @@
 package com.patrick.nomnoms;
 
 import com.patrick.nomnoms.api.tesco.TescoService;
+import com.patrick.nomnoms.api.tesco.TescoSiteParser;
+import com.patrick.nomnoms.entity.NutritionalInfo;
 import com.patrick.nomnoms.entity.Product;
 import com.patrick.nomnoms.service.AmazonService;
 import com.patrick.nomnoms.service.ProductService;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,9 +43,10 @@ public class Application {
 
 		String tpnc = "261385173";
 
-		List<Product> products = tescoService.searchGroceries("sliced meat", 0, 10);
+		List<Product> products = tescoService.searchGroceries("cereal", 0, 10);
 
 		for (Product product : products) {
+			log.info("Saving product {} to database", product.getName());
 			productService.saveProduct(product);
 		}
 
@@ -153,13 +159,12 @@ public class Application {
 
 
 
+=======
+>>>>>>> 7056cacbbf56a5add53c32b5917c04881cc5bc34
 	public void init(){
 
-		log.info("------------------API TEST CALLS HERE -------------------------");
-		List<Product> products = tescoService.testFlow("fish");
 
-		for (Product product : products) {
-
+<<<<<<< HEAD
 			log.info("Saving product {}", product);
 
 			Product savedEntity = productService.saveProduct(product);
@@ -167,6 +172,7 @@ public class Application {
 			log.info("... product {} saved!", savedEntity.getObjectId());
 		}
     }*/
+
 
 
 

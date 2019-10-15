@@ -75,6 +75,7 @@ public class TescoServiceImpl implements TescoService {
         return null;
     }
 
+
     private List<Product> convertToEntity(List<Result> results) {
 
         List<Product> formattedProducts = new ArrayList<>();
